@@ -79,8 +79,8 @@ function generatePassword() {
 
 function showToast(message) {
     if (hasGenerated === false) {
-        pbox1.textContent = "Generate a password first"
-        pbox2.textContent = "Before you can copy! "
+        pbox1.textContent = "Did you just..."
+        pbox2.textContent = "copy nothing?😕 "
     }else{
     const toast = document.createElement("div");
     toast.id = "toast";
