@@ -1,25 +1,39 @@
-body {
+/* Root background — fixes iOS white edges */
+html {
   background: linear-gradient(135deg, #0f172a 0%, #1e2937 100%);
-  color: #e2e8f0;
-  min-height: 100vh;
-  font-family: 'Segoe UI', system-ui, sans-serif;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  min-height: 100%;
+  overscroll-behavior: none;
 }
 
+/* Body */
+body {
+  margin: 0;
+  background: transparent;
+  color: #e2e8f0;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+
+  min-height: 100svh;
+  display: flex;
+  justify-content: center;
+
+  /* 🔑 IMPORTANT */
+  align-items: flex-start;
+  overflow-y: auto;
+}
+
+/* Layout */
 .container {
-  max-width: 700px; /* Adjust as needed for content width */
+  max-width: 700px;
   width: 100%;
-  padding: 20px;
+  padding: 50px 24px;
   box-sizing: border-box;
 }
 
 .hero {
-    max-width: 85%;
-    
+  max-width: 85%;
 }
 
+/* Typography */
 .title {
   font-size: 3.2rem;
   font-weight: 700;
@@ -30,12 +44,23 @@ body {
   color: #22ff88;
 }
 
+.lead {
+  padding: 10px 0;
+}
+
+.example-label {
+  font-size: 0.9rem;
+  color: #64748b;
+  margin-bottom: 8px;
+}
+
+/* Password box */
 .password-box {
   background: #1e2937;
   border: 2px solid #334155;
   border-radius: 12px;
-  padding: 10px 24px ;
-  font-family: 'Consolas', monospace;
+  padding: 12px 24px;
+  font-family: Consolas, monospace;
   font-size: 1.3rem;
   color: #22ff88;
   letter-spacing: 2px;
@@ -43,8 +68,10 @@ body {
   min-height: 58px;
   display: flex;
   align-items: center;
+  cursor: pointer;
 }
 
+/* Generate button */
 .btn-generate {
   background: #22ff88;
   color: #0f172a;
@@ -56,22 +83,15 @@ body {
 }
 
 .btn-generate:hover {
-  background: #1aff77;
+  background: #1e2937;
   transform: translateY(-3px);
   box-shadow: 0 10px 25px rgba(34, 255, 136, 0.4);
 }
 
-.example-label {
-  font-size: 0.9rem;
-  color: #64748b;
-  margin-bottom: 8px;
-  
-}
-
+/* Toggle switch */
 .toggle-switch {
-    padding-top: 30px;
-  display: inline-flex;
-  align-items: center;
+  padding-top: 30px;
+  display: flex;
   justify-content: center;
 }
 
@@ -84,8 +104,6 @@ body {
   align-items: center;
   gap: 0.9rem;
   cursor: pointer;
-  user-select: none;
-  color: #e2e8f0;
 }
 
 .switch-slider {
@@ -95,7 +113,6 @@ body {
   border-radius: 999px;
   background: #334155;
   transition: background 0.25s ease;
-  flex-shrink: 0;
 }
 
 .switch-slider::before {
@@ -108,7 +125,6 @@ body {
   border-radius: 50%;
   background: #f8fafc;
   transition: transform 0.25s ease;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
 
 .toggle-switch input:checked + .switch-label .switch-slider {
@@ -119,29 +135,27 @@ body {
   transform: translateX(22px);
 }
 
-.switch-text {
-    font-family: 'Segoe UI', system-ui, sans-serif;
-  font-size: 1rem;
+#lengthRange {
+  color: #22ff88;
 }
 
+/* Toast */
 #toast {
-    position: fixed;
-    bottom: 30px;
-    left: 50%;
-    transform: translateX(-50%) translateY(20px);
-
-    background: #d5d5d5;
-    color: #0f172a;
-    padding: 12px 20px;
-    border-radius: 8px;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s ease, transform 0.3s ease;
-    font-size: 14px;
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: #d5d5d5;
+  color: #0f172a;
+  padding: 12px 20px;
+  border-radius: 8px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  font-size: 14px;
 }
 
 #toast.show {
-    opacity: 1;
-    pointer-events: auto;
-    transform: translateX(-50%) translateY(0);
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
 }
