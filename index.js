@@ -18,6 +18,17 @@ toggleSymbol.addEventListener("change", ()=>{
 })
 
 hasGenerated = false;
+changedLength = false
+
+const pwLength = document.getElementById("lengthRange"); 
+const pwLengthText = document.getElementById("lenVal")
+
+pwLength.addEventListener("input", ()=>{
+    num = pwLength.value 
+    changedLength = true
+    pwLengthText.textContent = " " + num 
+})
+
 
 
 //click to copy
@@ -47,40 +58,66 @@ pbox2.addEventListener("click", ()=>{
 
 function generatePassword() {
 
-    //if symbol toggler is checked
-    if(toggleSymbol.checked === true){
-        
-        pbox1.textContent = "";
-        pbox2.textContent = "";
+        if(toggleSymbol.checked === true && changedLength === false){
+        //Symbol toggler is checked and not pwLength
+            pbox1.textContent = "";
+            pbox2.textContent = "";
 
-    
-    for(i = 0; i < 13; i++){
-      let index =  Math.floor( Math.random()* characters.length)
-      let index2 =  Math.floor( Math.random()* characters.length)  
+            for(i = 0; i < 13; i++){
+            let index =  Math.floor( Math.random()* characters.length)
+            let index2 =  Math.floor( Math.random()* characters.length)  
 
-        pbox1.textContent +=characters[index]
-        pbox2.textContent += characters[index2];
-    }      
-    }else{
-    pbox1.textContent = "";
-    pbox2.textContent = "";
+            pbox1.textContent +=characters[index]
+            pbox2.textContent += characters[index2];
+            }      
+        }
+        else if(toggleSymbol.checked === false && changedLength === true){
+        //pwLength slider is not adjusted and not Symbol toggler    
+            pbox1.textContent = "";
+            pbox2.textContent = "";
 
-    
-    for(i = 0; i < 13; i++){
-      let index =  Math.floor( Math.random()* alphaNum.length)
-      let index2 =  Math.floor( Math.random()* alphaNum.length)  
+            for(i = 0; i < num; i++){
+            let index =  Math.floor( Math.random()* alphaNum.length)
+            let index2 =  Math.floor( Math.random()* alphaNum.length)  
 
-        pbox1.textContent +=alphaNum[index]
-        pbox2.textContent += alphaNum[index2];
-    }      
-    }
-    hasGenerated = true
+            pbox1.textContent +=alphaNum[index]
+            pbox2.textContent += alphaNum[index2];
+            }
+        }
+        else if(toggleSymbol.checked === true && changedLength === true){
+            //both switches are in use
+            pbox1.textContent = "";
+            pbox2.textContent = "";
+
+            for(i = 0; i < num; i++){
+            let index =  Math.floor( Math.random()* characters.length)
+            let index2 =  Math.floor( Math.random()* characters.length)  
+
+            pbox1.textContent +=characters[index]
+            pbox2.textContent += characters[index2];
+            }
+        }
+        else{
+            //none are used
+            pbox1.textContent = "";
+            pbox2.textContent = "";
+
+            
+            for(i = 0; i < 13; i++){
+            let index =  Math.floor( Math.random()* alphaNum.length)
+            let index2 =  Math.floor( Math.random()* alphaNum.length)  
+
+                pbox1.textContent +=alphaNum[index]
+                pbox2.textContent += alphaNum[index2];
+            }      
+        }
+        hasGenerated = true
 }
 
 function showToast(message) {
     if (hasGenerated === false) {
-        pbox1.textContent = "Did you just..."
-        pbox2.textContent = "copy nothing?😕 "
+        pbox1.textContent = "Did You just..."
+        pbox2.textContent = "copy nothing?!🫤 "
     }else{
     const toast = document.createElement("div");
     toast.id = "toast";
