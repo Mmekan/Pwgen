@@ -210,3 +210,82 @@ function showToast(message) {
     setTimeout(() => toast.remove(), 300);
   }, 3000);
 }
+
+
+// ============== PWA SERVICE WORKER + INSTALL ==============
+
+let deferredPrompt;
+
+// Register Service Worker
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js')
+      .then(reg => {
+        console.log('Service Worker registered ✅', reg.scope);
+
+        // Check for updates
+        reg.addEventListener('updatefound', () => {
+          const newWorker = reg.installing;
+          if (newWorker) {
+            newWorker.addEventListener('statechange', () => {
+              if (newWorker.state === 'installed') {
+                if (navigator.serviceWorker.controller) {
+                  // New version available
+                  showUpdateToast();
+                }
+              }
+            });
+          }
+        });
+      })
+      .catch(err => console.log('Service Worker registration failed:', err));
+  });
+}
+
+// Install App Button
+const installBtn = document.createElement('button');
+installBtn.textContent = "📲 Install App";
+installBtn.id = "install-btn";
+installBtn.style.display = "none";   // hidden by default
+
+// You can append it wherever you want (e.g. near generate button)
+document.body.appendChild(installBtn);   // or better: document.getElementById('header').appendChild(installBtn);
+
+installBtn.addEventListener('click', () => {
+  if (deferredPrompt) {
+    deferredPrompt.prompt();
+    deferredPrompt.userChoice.then(choice => {
+      if (choice.outcome === 'accepted') {
+        console.log('User installed the app');
+      }
+      deferredPrompt = null;
+      installBtn.style.display = "none";
+    });
+  }
+});
+
+// Listen for install prompt
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  installBtn.style.display = "block";
+  console.log('Install prompt ready');
+});
+
+// Show update notification
+function showUpdateToast() {
+  const toast = document.createElement('div');
+  toast.style.cssText = `
+    position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+    background: #333; color: white; padding: 12px 20px; border-radius: 8px;
+    z-index: 10000; box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  `;
+  toast.innerHTML = `
+    New version available! 
+    <button onclick="this.parentElement.remove(); window.location.reload()" 
+            style="margin-left:10px; background:#0a0; color:white; border:none; padding:6px 12px; border-radius:4px;">
+      Update Now
+    </button>
+  `;
+  document.body.appendChild(toast);
+}
