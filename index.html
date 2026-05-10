@@ -2,8 +2,6 @@
 <html lang="en">
 <head>
   <link rel="manifest" href="manifest.json">
-  <link rel="icon" href="favicon-32.png">
-  <link rel="apple-touch-icon" href="apple-icon-180.png">
   <meta name="theme-color" content="#0f172a">
 
   <meta charset="UTF-8" />
@@ -70,13 +68,14 @@
           <input type="range" min="6" max="12" step="2" value="12" id="lengthRange">
         </div>
 
-        <section class="mt-5 text-light text-center">
+        <section class="mt-5 text-light text-start" >  
         <strong>How to use:</strong>
         <p class="mt-2">
-          Tap <b>Generate Passwords</b><br> to create two secure passwords.<br>
-          Tap any password to copy it instantly.<br>
-          Use the toggle to include or exclude symbols.<br>
-          Use the Slider to increase the length of the Password.
+          1.Tap <b>Generate Passwords</b><br> to create two secure passwords.<br>
+          2. Tap any password to copy it instantly.<br>
+          3. Use the toggle to include or exclude symbols.<br>
+          4. Adjust the slider to set your desired <strong>password length</strong>.<br>
+          5. Long-press the 🥸 icon to <strong>view saved passwords</strong> in the vault.
         </p>
       </section>
 
@@ -84,12 +83,30 @@
     </div>
   </main>
 
+  <!-- Assistant Bubble -->
+<div id="assistant">
+  <div id="assistant-bubble">🥸</div>
+
+  <div id="assistant-panel">
+    <div id="assistant-header">
+      Assis
+      <span id="assistant-close">✕</span>
+    </div>
+
+    <div id="assistant-messages"></div>
+  </div>
+</div>
+
   <!-- Toast -->
   <div id="toast"></div>
 
   <!-- Scripts -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://unpkg.com/dexie@3/dist/dexie.min.js"></script>
+  <script type="module" src="app.js"></script>
   <script src="index.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  
   <script>
   if ("serviceWorker" in navigator) {
     navigator.serviceWorker.register("service-worker.js");
