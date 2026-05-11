@@ -1,6 +1,6 @@
 const db = new Dexie("Pwgenvault")
 db.version(1).stores({
-    passwords: "++id, label, password, createdAt"
+    passwords: "++id, label, password, createdAt, description"
 });
 
 await db.open()
@@ -15,6 +15,7 @@ async function savePassword(label, password) {
   return db.passwords.add({
     label,
     password,
+    description,  
     createdAt: Date.now()
   });
 }
