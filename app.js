@@ -1,5 +1,5 @@
 const db = new Dexie("Pwgenvault")
-db.version(1).stores({
+db.version(2).stores({
     passwords: "++id, label, password, createdAt, description"
 });
 
