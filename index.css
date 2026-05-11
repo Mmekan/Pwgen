@@ -181,7 +181,9 @@ body {
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  
+  user-select: none;
+  -webkit-user-select: none; /* safari*/
+  cursor: pointer;
 }
 
 /* Panel */
@@ -229,6 +231,6 @@ body {
   border-radius: 8px;
 }
 
-.msg.success { background: #1f3; color: #000; }
+.msg.success { background: rgb(234, 255, 204); color: #000; }
 .msg.error   { background: #426d40; }
 .msg.info    { background: #333; }
