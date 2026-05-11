@@ -11,18 +11,16 @@ await db.open()
     console.error("Failed to open DB:", err);
   });
 
-async function savePassword(label, password, description) {
+async function savePassword(label, password) {
   return db.passwords.add({
     label,
     password,
-    description,
     createdAt: Date.now()
   });
 }
 
 window.savePasswordFlow = function (password) {
   const label = prompt("What is this password for?");
-  const description = prompt("Any additional notes? (optional)");
 
   if (!label) {
     assistantMessage("Save cancelled", "info");
@@ -49,7 +47,7 @@ function displaySavedPasswords() {
   getAllPasswords()
     .then(passwords => {
       if (passwords.length === 0) {
-        assistantMessage("You haven't saved any yet 🔒", "info");
+        assistantMessage("You haven't saved any yet 👀", "info");
         return;
       }
 
