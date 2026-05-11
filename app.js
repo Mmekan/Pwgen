@@ -1,48 +1,45 @@
-const db = new Dexie("Pwgenvault")
+const db = new Dexie("Pwgenvault");
+
+// Bump version and keep the schema simple
 db.version(2).stores({
-    passwords: "++id, label, password, createdAt, description"
+    passwords: "++id, label, password, createdAt"   // removed description
 });
 
 await db.open()
-  .then(() => {
-    console.log("Dexie DB opened successfully");
-  })
-  .catch(err => {
-    console.error("Failed to open DB:", err);
-  });
+  .then(() => console.log("Dexie DB opened successfully"))
+  .catch(err => console.error("Failed to open DB:", err));
 
 async function savePassword(label, password) {
   return db.passwords.add({
     label,
     password,
-    description,  
     createdAt: Date.now()
   });
 }
 
 window.savePasswordFlow = function (password) {
   const label = prompt("What is this password for?");
-
   if (!label) {
     assistantMessage("Save cancelled", "info");
     return;
   }
 
-  savePassword(label, password, description)
+  savePassword(label, password)
     .then(() => {
       assistantMessage("Password saved securely ✅", "success");
     })
-    .catch(() => {
+    .catch(err => {
+      console.error(err);
       assistantMessage("Failed to save password ❌", "error");
     });
 };
 
-//fetches saved passwords in the vault
+// Fetch all passwords
 function getAllPasswords() {
   return db.passwords.toArray();
 }
 
-//display saved passwords in the assistant
+// Display saved passwords
 function displaySavedPasswords() {
   console.log("Fetching saved passwords...");
   getAllPasswords()
@@ -53,20 +50,17 @@ function displaySavedPasswords() {
       }
 
       assistantMessage("Saved passwords:", "info");
-
       passwords.forEach(item => {
-        assistantMessage(
-          `${item.label}: ${item.password}`,
-          "success"
-        );
+        assistantMessage(`${item.label}: ${item.password}`, "success");
       });
     })
-    .catch(() => {
+    .catch(err => {
+      console.error(err);
       assistantMessage("Failed to load passwords ❌", "error");
     });
-};
+}
 
-// ============== EXPOSE TO GLOBAL SCOPE ==============
-window.savePasswordFlow = savePasswordFlow;        // already had this
+// Expose to global scope
+window.savePasswordFlow = savePasswordFlow;
 window.displaySavedPasswords = displaySavedPasswords;
 window.getAllPasswords = getAllPasswords;
